@@ -67,10 +67,10 @@ __Z9partitionPiiii:
         move.l d5,a2
         add.l d0,a2
         move.w d6,d2
-        bra .L3
+        bra.s	.L3
 .L5:
         cmp.w d2,d4
-        bge .L7
+        bge.s	.L7
 	movea.l	d5,a0		; move.l d5,-(sp)
 	move	d4,d0		; move.w d4,-(sp)
 	move	d2,d1		; move.w d2,-(sp)
@@ -78,7 +78,7 @@ __Z9partitionPiiii:
 .L3:
         addq.w #1,d4
         cmp.w (a2)+,d3
-        bgt .L3
+        bgt.s	.L3
         move.w d2,a0
         move.l a0,d0
         add.l d0,d0
@@ -86,11 +86,11 @@ __Z9partitionPiiii:
         add.l d5,a0
 .L6:
         tst.w d2
-        ble .L5
+        ble.s	.L5
         subq.w #1,d2
         cmp.w -(a0),d3
-        blt .L6
-        bra .L5
+        blt.s	.L6
+        bra.s	.L5
 .L7:
 	movea.l	d5,a0
 	move.w	d6,d1
@@ -108,7 +108,7 @@ __Z9quickSortPiii:
         move.w 36(sp),d2
         move.w 38(sp),d4
         cmp.w d4,d2
-        bge .L9
+        bge.s	.L9
         move.w d4,a2
         move.l a2,d0
         add.l d0,d0
@@ -130,7 +130,7 @@ __Z9quickSortPiii:
         addq.w #1,d2
         lea (18,sp),sp
         cmp.w d4,d2
-        blt	.L11
+        blt.s	.L11
 .L9:
         movem.l (sp)+,a2-a4/d2-d5
         rts

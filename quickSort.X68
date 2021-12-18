@@ -25,19 +25,20 @@ INF_LOOP:
 
 
 swap:
-        move.l 4(sp),a1
-        move.w 8(sp),a0
-        move.l a0,d0
-        add.l d0,d0
-        lea (a1,d0.l),a0
-        move.w (a0),d1
-        move.w 10(sp),d0
-        ext.l d0
-        add.l d0,d0
-        add.l d0,a1
-        move.w (a1),(a0)
-        move.w d1,(a1)
+        move.l 4(sp),a0
+	movea.l	a0,a1
+        move.w 8(sp),d0
+	adda.l	d0,a0
+	adda.l	d0,a0
+        move.w 10(sp),d1
+	adda.l	d1,a1
+	adda.l	d1,a1
+
+	move.w	(a0),d1
+	move.w	(a1),(a0)
+	move.w	d1,(a1)
         rts
+
 
 
 __Z9partitionPiiii:

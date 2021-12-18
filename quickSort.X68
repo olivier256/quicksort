@@ -1,3 +1,17 @@
+_swap:	macro
+	movea.l	a0,a1
+	ext.w	d0
+	add.w	d0,d0
+	adda.l	d0,a0
+	ext.w	d1
+	add.w	d1,d1
+	adda.l	d1,a1
+
+	move.w	(a0),d1
+	move.w	(a1),(a0)
+	move.w	d1,(a1)
+	endm
+
     ORG    $0
 START:
 
@@ -60,7 +74,8 @@ __Z9partitionPiiii:
 	movea.l	d5,a0		; move.l d5,-(sp)
 	move	d4,d0		; move.w d4,-(sp)
 	move	d2,d1		; move.w d2,-(sp)
-	bsr	swap		; SWAP
+;	bsr	swap		; SWAP
+	_swap
 .L3:
         addq.w #1,d4
         cmp.w (a2)+,d3
@@ -81,7 +96,8 @@ __Z9partitionPiiii:
 	movea.l	d5,a0
 	move.w	d6,d1
 	move.w	d4,d0
-        jsr	swap		; SWAP
+;        jsr	swap		; SWAP
+	_swap
         move.w d4,d0
 	movem.l (sp)+,a2-a3/d2-d6
         rts

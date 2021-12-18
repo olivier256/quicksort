@@ -25,15 +25,12 @@ INF_LOOP:
 
 
 swap:
-        move.l 4(sp),a0
 	movea.l	a0,a1
-        move.w 8(sp),d0
 	ext.w	d0
-	add.l	d0,d0
+	add.w	d0,d0
 	adda.l	d0,a0
-        move.w 10(sp),d1
 	ext.w	d1
-	add.l	d1,a1
+	add.w	d1,d1
 	adda.l	d1,a1
 
 	move.w	(a0),d1
@@ -60,11 +57,10 @@ __Z9partitionPiiii:
 .L5:
         cmp.w d2,d4
         bge .L7
-        move.w d2,-(sp)
-        move.w d4,-(sp)
-        move.l d5,-(sp)
+	movea.l	d5,a0		; move.l d5,-(sp)
+	move	d4,d0		; move.w d4,-(sp)
+	move	d2,d1		; move.w d2,-(sp)
 	bsr	swap		; SWAP
-        addq.l #8,sp
 .L3:
         addq.w #1,d4
         cmp.w (a2)+,d3
@@ -82,11 +78,10 @@ __Z9partitionPiiii:
         blt .L6
         bra .L5
 .L7:
-        move.w d6,-(sp)
-        move.w d4,-(sp)
-        move.l d5,-(sp)
+	movea.l	d5,a0
+	move.w	d6,d1
+	move.w	d4,d0
         jsr	swap		; SWAP
-        addq.l #8,sp
         move.w d4,d0
 	movem.l (sp)+,a2-a3/d2-d6
         rts

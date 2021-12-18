@@ -1,6 +1,6 @@
 00000000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.03
-Created On: 18/12/2021 11:49:28
+Created On: 18/12/2021 11:54:10
 
 00000000                             1  _swap:  macro
 00000000                             2          movea.l a0,a1
@@ -78,73 +78,69 @@ Created On: 18/12/2021 11:49:28
 00000086  2045                      74          movea.l d5,a0           ; move.l d5,-(sp)
 00000088  3004                      75          move    d4,d0           ; move.w d4,-(sp)
 0000008A  3202                      76          move    d2,d1           ; move.w d2,-(sp)
-0000008C                            77  ;       bsr     swap            ; SWAP
-0000008C                            78m         _swap
-000000A0                            79  .L3:
-000000A0  5244                      80          addq.w #1,d4
-000000A2  B65A                      81          cmp.w (a2)+,d3
-000000A4  6EFA                      82          bgt .L3
-000000A6  3042                      83          move.w d2,a0
-000000A8  2008                      84          move.l a0,d0
-000000AA  D080                      85          add.l d0,d0
-000000AC  2040                      86          move.l d0,a0
-000000AE  D1C5                      87          add.l d5,a0
-000000B0                            88  .L6:
-000000B0  4A42                      89          tst.w d2
-000000B2  6FCC                      90          ble .L5
-000000B4  5342                      91          subq.w #1,d2
-000000B6  B660                      92          cmp.w -(a0),d3
-000000B8  6DF6                      93          blt .L6
-000000BA  60C4                      94          bra .L5
-000000BC                            95  .L7:
-000000BC  2045                      96          movea.l d5,a0
-000000BE  3206                      97          move.w  d6,d1
-000000C0  3004                      98          move.w  d4,d0
-000000C2                            99  ;        jsr    swap            ; SWAP
-000000C2                           100m         _swap
-000000D6  3004                     101          move.w d4,d0
-000000D8  4CDF 0C7C                102          movem.l (sp)+,a2-a3/d2-d6
-000000DC  4E75                     103          rts
+0000008C                            77m         _swap
+000000A0                            78  .L3:
+000000A0  5244                      79          addq.w #1,d4
+000000A2  B65A                      80          cmp.w (a2)+,d3
+000000A4  6EFA                      81          bgt .L3
+000000A6  3042                      82          move.w d2,a0
+000000A8  2008                      83          move.l a0,d0
+000000AA  D080                      84          add.l d0,d0
+000000AC  2040                      85          move.l d0,a0
+000000AE  D1C5                      86          add.l d5,a0
+000000B0                            87  .L6:
+000000B0  4A42                      88          tst.w d2
+000000B2  6FCC                      89          ble .L5
+000000B4  5342                      90          subq.w #1,d2
+000000B6  B660                      91          cmp.w -(a0),d3
+000000B8  6DF6                      92          blt .L6
+000000BA  60C4                      93          bra .L5
+000000BC                            94  .L7:
+000000BC  2045                      95          movea.l d5,a0
+000000BE  3206                      96          move.w  d6,d1
+000000C0  3004                      97          move.w  d4,d0
+000000C2                            98m         _swap
+000000D6  3004                      99          move.w d4,d0
+000000D8  4CDF 0C7C                100          movem.l (sp)+,a2-a3/d2-d6
+000000DC  4E75                     101          rts
+000000DE                           102  
+000000DE                           103  
 000000DE                           104  
-000000DE                           105  
-000000DE                           106  
-000000DE                           107  __Z9quickSortPiii:
-000000DE  48E7 3C38                108          movem.l a2-a4/d2-d5,-(sp)
-000000E2  2A2F 0020                109          move.l 32(sp),d5
-000000E6  342F 0024                110          move.w 36(sp),d2
-000000EA  382F 0026                111          move.w 38(sp),d4
-000000EE  B444                     112          cmp.w d4,d2
-000000F0  6C00 0036                113          bge .L9
-000000F4  3444                     114          move.w d4,a2
-000000F6  200A                     115          move.l a2,d0
-000000F8  D080                     116          add.l d0,d0
-000000FA  2440                     117          move.l d0,a2
-000000FC  D5C5                     118          add.l d5,a2
-000000FE  49F8 005A                119          lea __Z9partitionPiiii,a4
-00000102  47F8 00DE                120          lea __Z9quickSortPiii,a3
-00000106                           121  .L11:
-00000106  3F12                     122          move.w (a2),-(sp)
-00000108  3F04                     123          move.w d4,-(sp)
-0000010A  3F02                     124          move.w d2,-(sp)
-0000010C  2F05                     125          move.l d5,-(sp)
-0000010E  4E94                     126          jsr (a4)
-00000110  3600                     127          move.w d0,d3
-00000112  5340                     128          subq.w #1,d0
-00000114  3F00                     129          move.w d0,-(sp)
-00000116  3F02                     130          move.w d2,-(sp)
-00000118  2F05                     131          move.l d5,-(sp)
-0000011A  4E93                     132          jsr (a3)
-0000011C  3403                     133          move.w d3,d2
-0000011E  5242                     134          addq.w #1,d2
-00000120  4FEF 0012                135          lea (18,sp),sp
-00000124  B444                     136          cmp.w d4,d2
-00000126  6DDE                     137          blt .L11
-00000128                           138  .L9:
-00000128  4CDF 1C3C                139          movem.l (sp)+,a2-a4/d2-d5
-0000012C  4E75                     140          rts
-0000012E                           141  
-0000012E                           142  
-0000012E                           143      END    START
+000000DE                           105  __Z9quickSortPiii:
+000000DE  48E7 3C38                106          movem.l a2-a4/d2-d5,-(sp)
+000000E2  2A2F 0020                107          move.l 32(sp),d5
+000000E6  342F 0024                108          move.w 36(sp),d2
+000000EA  382F 0026                109          move.w 38(sp),d4
+000000EE  B444                     110          cmp.w d4,d2
+000000F0  6C00 0030                111          bge .L9
+000000F4  3444                     112          move.w d4,a2
+000000F6  200A                     113          move.l a2,d0
+000000F8  D080                     114          add.l d0,d0
+000000FA  2440                     115          move.l d0,a2
+000000FC  D5C5                     116          add.l d5,a2
+000000FE                           117  .L11:
+000000FE  3F12                     118          move.w (a2),-(sp)
+00000100  3F04                     119          move.w d4,-(sp)
+00000102  3F02                     120          move.w d2,-(sp)
+00000104  2F05                     121          move.l d5,-(sp)
+00000106  6100 FF52                122          bsr     __Z9partitionPiiii
+0000010A  3600                     123          move.w d0,d3
+0000010C  5340                     124          subq.w #1,d0
+0000010E  3F00                     125          move.w d0,-(sp)
+00000110  3F02                     126          move.w d2,-(sp)
+00000112  2F05                     127          move.l d5,-(sp)
+00000114  61C8                     128          bsr     __Z9quickSortPiii
+00000116  3403                     129          move.w d3,d2
+00000118  5242                     130          addq.w #1,d2
+0000011A  4FEF 0012                131          lea (18,sp),sp
+0000011E  B444                     132          cmp.w d4,d2
+00000120  6DDC                     133          blt     .L11
+00000122                           134  .L9:
+00000122  4CDF 1C3C                135          movem.l (sp)+,a2-a4/d2-d5
+00000126  4E75                     136          rts
+00000128                           137  
+00000128                           138  
+00000128                           139      END    START
 
 No errors detected
 No warnings generated
@@ -164,5 +160,5 @@ __Z9PARTITIONPIIII:L5  80
 __Z9PARTITIONPIIII:L6  B0
 __Z9PARTITIONPIIII:L7  BC
 __Z9QUICKSORTPIII   DE
-__Z9QUICKSORTPIII:L11  106
-__Z9QUICKSORTPIII:L9  128
+__Z9QUICKSORTPIII:L11  FE
+__Z9QUICKSORTPIII:L9  122

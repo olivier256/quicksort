@@ -74,7 +74,6 @@ __Z9partitionPiiii:
 	movea.l	d5,a0		; move.l d5,-(sp)
 	move	d4,d0		; move.w d4,-(sp)
 	move	d2,d1		; move.w d2,-(sp)
-;	bsr	swap		; SWAP
 	_swap
 .L3:
         addq.w #1,d4
@@ -96,7 +95,6 @@ __Z9partitionPiiii:
 	movea.l	d5,a0
 	move.w	d6,d1
 	move.w	d4,d0
-;        jsr	swap		; SWAP
 	_swap
         move.w d4,d0
 	movem.l (sp)+,a2-a3/d2-d6
@@ -116,25 +114,23 @@ __Z9quickSortPiii:
         add.l d0,d0
         move.l d0,a2
         add.l d5,a2
-        lea __Z9partitionPiiii,a4
-        lea __Z9quickSortPiii,a3
 .L11:
         move.w (a2),-(sp)
         move.w d4,-(sp)
         move.w d2,-(sp)
         move.l d5,-(sp)
-        jsr (a4)
+	bsr	__Z9partitionPiiii
         move.w d0,d3
         subq.w #1,d0
         move.w d0,-(sp)
         move.w d2,-(sp)
         move.l d5,-(sp)
-        jsr (a3)
+	bsr	__Z9quickSortPiii
         move.w d3,d2
         addq.w #1,d2
         lea (18,sp),sp
         cmp.w d4,d2
-        blt .L11
+        blt	.L11
 .L9:
         movem.l (sp)+,a2-a4/d2-d5
         rts

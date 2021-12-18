@@ -105,39 +105,39 @@ __Z9partitionPiiii:
 
 
 __Z9quickSortPiii:
-	movem.l	a2-a3/d2-d4,-(sp)        movem.l #14384,-(sp)
-        move.l 24(sp),a2
-        move.w 28(sp),d3
-        move.w 30(sp),d2
-        cmp.w d2,d3
-        blt .L11
-.L9:
-        movem.l	(sp)+,a2-a3/d2-d4	; movem.l (sp)+,#3100
-        rts
+        movem.l a2-a4/d2-d5,-(sp)
+        move.l 32(sp),d5
+        move.w 36(sp),d2
+        move.w 38(sp),d4
+        cmp.w d4,d2
+        bge .L9
+        move.w d4,a2
+        move.l a2,d0
+        add.l d0,d0
+        move.l d0,a2
+        add.l d5,a2
+        lea __Z9partitionPiiii,a4
+        lea __Z9quickSortPiii,a3
 .L11:
-        move.w d2,a0
-	lsl.l	#1,d2
-        move.w (a2,d2),-(sp)
-	lsr.l	#1,d2
+        move.w (a2),-(sp)
+        move.w d4,-(sp)
         move.w d2,-(sp)
-        move.w d3,-(sp)
-        move.l a2,-(sp)
-        jsr __Z9partitionPiiii
-        move.w d0,d4
+        move.l d5,-(sp)
+        jsr (a4)
+        move.w d0,d3
         subq.w #1,d0
         move.w d0,-(sp)
-        move.w d3,-(sp)
-        move.l a2,-(sp)
-        lea __Z9quickSortPiii,a3
-        jsr (a3)
         move.w d2,-(sp)
-        addq.w #1,d4
-        move.w d4,-(sp)
-        move.l a2,-(sp)
+        move.l d5,-(sp)
         jsr (a3)
-        lea (26,sp),sp
-        bra .L9
-
+        move.w d3,d2
+        addq.w #1,d2
+        lea (18,sp),sp
+        cmp.w d4,d2
+        blt .L11
+.L9:
+        movem.l (sp)+,a2-a4/d2-d5
+        rts
 
 
     END    START

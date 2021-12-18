@@ -28,10 +28,12 @@ swap:
         move.l 4(sp),a0
 	movea.l	a0,a1
         move.w 8(sp),d0
-	adda.l	d0,a0
+	ext.w	d0
+	add.l	d0,d0
 	adda.l	d0,a0
         move.w 10(sp),d1
-	adda.l	d1,a1
+	ext.w	d1
+	add.l	d1,a1
 	adda.l	d1,a1
 
 	move.w	(a0),d1

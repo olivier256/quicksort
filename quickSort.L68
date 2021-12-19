@@ -1,6 +1,6 @@
 00000000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.03
-Created On: 19/12/2021 21:07:20
+Created On: 19/12/2021 21:12:32
 
 00000000                             1          ORG     0
 00000000                             2  START
@@ -45,82 +45,75 @@ Created On: 19/12/2021 21:07:20
 00000048                            41  ; d6    *t
 00000048                            42  ; d7    left
 00000048                            43  ; a5    right
-00000048  48E7 3F3E                 44          movem.l a2-a6/d2-d7,-(sp)
-0000004C                            45  ;        move.l 48(sp),d6
-0000004C                            46  ;        move.w 52(sp),d7
-0000004C                            47  ;        move.w 54(sp),a5
-0000004C  BE4D                      48          cmp.w a5,d7
-0000004E  6C6A                      49          bge.s   .L1
-00000050  3C4D                      50          move.w a5,a6
-00000052  200E                      51          move.l a6,d0
-00000054  D080                      52          add.l d0,d0
-00000056  2846                      53          move.l d6,a4
-00000058  D9C0                      54          add.l d0,a4
-0000005A                            55  .L9:
-0000005A  3414                      56          move.w (a4),d2
-0000005C  3A07                      57          move.w d7,d5
-0000005E  5345                      58          subq.w #1,d5
-00000060  3247                      59          move.w d7,a1
-00000062  2009                      60          move.l a1,d0
-00000064  D080                      61          add.l d0,d0
-00000066  2240                      62          move.l d0,a1
-00000068  D3C6                      63          add.l d6,a1
-0000006A  300D                      64          move.w a5,d0
-0000006C  220E                      65          move.l a6,d1
-0000006E                            66  .L3:
-0000006E  3805                      67          move.w d5,d4
-00000070  5244                      68          addq.w #1,d4
-00000072  2449                      69          move.l a1,a2
-00000074  3619                      70          move.w (a1)+,d3
-00000076  B642                      71          cmp.w d2,d3
-00000078  6D26                      72          blt.s   .L4
-0000007A  D281                      73          add.l d1,d1
-0000007C  2046                      74          move.l d6,a0
-0000007E  D1C1                      75          add.l d1,a0
-00000080                            76  .L6:
-00000080  4A40                      77          tst.w d0
-00000082  6F06                      78          ble.s   .L5
-00000084  5340                      79          subq.w #1,d0
-00000086  B460                      80          cmp.w -(a0),d2
-00000088  6DF6                      81          blt .L6
-0000008A                            82  .L5:
-0000008A  B044                      83          cmp.w d4,d0
-0000008C  6F16                      84          ble.s   .L7
-0000008E  3200                      85          move.w d0,d1
-00000090  48C1                      86          ext.l d1
-00000092  2A01                      87          move.l d1,d5
-00000094  DA85                      88          add.l d5,d5
-00000096  2045                      89          move.l d5,a0
-00000098  D1C6                      90          add.l d6,a0
-0000009A  3350 FFFE                 91          move.w (a0),-2(a1)
-0000009E  3083                      92          move.w d3,(a0)
-000000A0                            93  .L4:
-000000A0  3A04                      94          move.w d4,d5
-000000A2  60CA                      95          bra .L3
-000000A4                            96  .L7:
-000000A4  3494                      97          move.w (a4),(a2)
-000000A6  3883                      98          move.w d3,(a4)
-000000A8  BE45                      99          cmp.w d5,d7
-000000AA  6C06                     100          bge.s .L8
-000000AC                           101  ;        move.w d5,-(sp)                ; right => a5
-000000AC                           102  ;        move.w d7,-(sp)                ; left  => d7
-000000AC                           103  ;        move.l d6,-(sp)                ; *t    => d6
-000000AC  CB8D                     104          exg     d5,a5
-000000AE  6198                     105          bsr     quickSort
-000000B0                           106  ;        addq.l #8,sp
-000000B0  CB8D                     107          exg     d5,a5
-000000B2                           108  .L8:
-000000B2  3E05                     109          move.w d5,d7
-000000B4  5447                     110          addq.w #2,d7
-000000B6  BE4D                     111          cmp.w a5,d7
-000000B8  6DA0                     112          blt .L9
-000000BA                           113  .L1:
-000000BA  4CDF 7CFC                114          movem.l (sp)+,a2-a6/d2-d7
-000000BE  4E75                     115          rts
-000000C0                           116  
-000000C0                           117  
-000000C0                           118  
-000000C0                           119          END START
+00000048  48E7 3F3C                 44          movem.l a2-a5/d2-d7,-(sp)
+0000004C  BE4D                      45          cmp.w a5,d7
+0000004E  6C6A                      46          bge.s   .L1
+00000050  364D                      47          move.w a5,a3
+00000052  200B                      48          move.l a3,d0
+00000054  D080                      49          add.l d0,d0
+00000056  2846                      50          move.l d6,a4
+00000058  D9C0                      51          add.l d0,a4
+0000005A                            52  .L9:
+0000005A  3414                      53          move.w (a4),d2
+0000005C  3A07                      54          move.w d7,d5
+0000005E  5345                      55          subq.w #1,d5
+00000060  3247                      56          move.w d7,a1
+00000062  2009                      57          move.l a1,d0
+00000064  D080                      58          add.l d0,d0
+00000066  2240                      59          move.l d0,a1
+00000068  D3C6                      60          add.l d6,a1
+0000006A  300D                      61          move.w a5,d0
+0000006C  220B                      62          move.l a3,d1
+0000006E                            63  .L3:
+0000006E  3805                      64          move.w d5,d4
+00000070  5244                      65          addq.w #1,d4
+00000072  2449                      66          move.l a1,a2
+00000074  3619                      67          move.w (a1)+,d3
+00000076  B642                      68          cmp.w d2,d3
+00000078  6D26                      69          blt.s   .L4
+0000007A  D281                      70          add.l d1,d1
+0000007C  2046                      71          move.l d6,a0
+0000007E  D1C1                      72          add.l d1,a0
+00000080                            73  .L6:
+00000080  4A40                      74          tst.w d0
+00000082  6F06                      75          ble.s   .L5
+00000084  5340                      76          subq.w #1,d0
+00000086  B460                      77          cmp.w -(a0),d2
+00000088  6DF6                      78          blt .L6
+0000008A                            79  .L5:
+0000008A  B044                      80          cmp.w d4,d0
+0000008C  6F16                      81          ble.s   .L7
+0000008E  3200                      82          move.w d0,d1
+00000090  48C1                      83          ext.l d1
+00000092  2A01                      84          move.l d1,d5
+00000094  DA85                      85          add.l d5,d5
+00000096  2045                      86          move.l d5,a0
+00000098  D1C6                      87          add.l d6,a0
+0000009A  3350 FFFE                 88          move.w (a0),-2(a1)
+0000009E  3083                      89          move.w d3,(a0)
+000000A0                            90  .L4:
+000000A0  3A04                      91          move.w d4,d5
+000000A2  60CA                      92          bra .L3
+000000A4                            93  .L7:
+000000A4  3494                      94          move.w (a4),(a2)
+000000A6  3883                      95          move.w d3,(a4)
+000000A8  BE45                      96          cmp.w d5,d7
+000000AA  6C06                      97          bge.s .L8
+000000AC  CB8D                      98          exg     d5,a5           ; Backup d5
+000000AE  6198                      99          bsr     quickSort
+000000B0  CB8D                     100          exg     d5,a5           ; Restore d5
+000000B2                           101  .L8:
+000000B2  3E05                     102          move.w d5,d7
+000000B4  5447                     103          addq.w #2,d7
+000000B6  BE4D                     104          cmp.w a5,d7
+000000B8  6DA0                     105          blt .L9
+000000BA                           106  .L1:
+000000BA  4CDF 3CFC                107          movem.l (sp)+,a2-a5/d2-d7
+000000BE  4E75                     108          rts
+000000C0                           109  
+000000C0                           110  
+000000C0                           111  
+000000C0                           112          END START
 
 No errors detected
 No warnings generated

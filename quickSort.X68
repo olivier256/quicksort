@@ -41,14 +41,11 @@ quickSort:
 ; d6	*t
 ; d7	left
 ; a5	right
-        movem.l a2-a6/d2-d7,-(sp)
-;        move.l 48(sp),d6
-;        move.w 52(sp),d7
-;        move.w 54(sp),a5
+        movem.l a2-a5/d2-d7,-(sp)
         cmp.w a5,d7
         bge.s	.L1
-        move.w a5,a6
-        move.l a6,d0
+        move.w a5,a3
+        move.l a3,d0
         add.l d0,d0
         move.l d6,a4
         add.l d0,a4
@@ -62,7 +59,7 @@ quickSort:
         move.l d0,a1
         add.l d6,a1
         move.w a5,d0
-        move.l a6,d1
+        move.l a3,d1
 .L3:
         move.w d5,d4
         addq.w #1,d4
@@ -98,20 +95,16 @@ quickSort:
         move.w d3,(a4)
         cmp.w d5,d7
         bge.s .L8
-;        move.w d5,-(sp)		; right	=> a5
-;        move.w d7,-(sp)		; left	=> d7
-;        move.l d6,-(sp)		; *t	=> d6
-	exg	d5,a5
+	exg	d5,a5		; Backup d5
 	bsr	quickSort
-;        addq.l #8,sp
-	exg	d5,a5
+	exg	d5,a5		; Restore d5
 .L8:
         move.w d5,d7
         addq.w #2,d7
         cmp.w a5,d7
         blt .L9
 .L1:
-        movem.l (sp)+,a2-a6/d2-d7
+        movem.l (sp)+,a2-a5/d2-d7
         rts
 
 

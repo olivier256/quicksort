@@ -21,13 +21,28 @@ INF_LOOP:
 
 
 
+
+
+
+__Z9quickSortPiii:
+        move.w 8(sp),d0
+        move.w 10(sp),d1
+        cmp.w d1,d0
+        bge.s	.L16
+        bra.s	__Z9quickSortPiii_part_0
+.L16:
+        rts
+
+
+
+
 __Z9quickSortPiii_part_0:
         movem.l a2-a6/d2-d7,-(sp)
         move.l 48(sp),d6
         move.w 52(sp),d7
         move.w 54(sp),a5
         cmp.w a5,d7
-        bge .L1
+        bge.s	.L1
         move.w a5,a6
         move.l a6,d0
         add.l d0,d0
@@ -51,19 +66,19 @@ __Z9quickSortPiii_part_0:
         move.l a1,a2
         move.w (a1)+,d3
         cmp.w d2,d3
-        blt .L4
+        blt.s	.L4
         add.l d1,d1
         move.l d6,a0
         add.l d1,a0
 .L6:
         tst.w d0
-        ble .L5
+        ble.s	.L5
         subq.w #1,d0
         cmp.w -(a0),d2
         blt .L6
 .L5:
         cmp.w d4,d0
-        ble .L7
+        ble.s	.L7
         move.w d0,d1
         ext.l d1
         move.l d1,d5
@@ -79,7 +94,7 @@ __Z9quickSortPiii_part_0:
         move.w (a4),(a2)
         move.w d3,(a4)
         cmp.w d5,d7
-        bge .L8
+        bge.s .L8
         move.w d5,-(sp)
         move.w d7,-(sp)
         move.l d6,-(sp)
@@ -96,16 +111,6 @@ __Z9quickSortPiii_part_0:
 
 
 
-
-
-__Z9quickSortPiii:
-        move.w 8(sp),d0
-        move.w 10(sp),d1
-        cmp.w d1,d0
-        bge .L16
-        bra __Z9quickSortPiii_part_0
-.L16:
-        rts
 __Z9partitionPiiii:
         movem.l a2/d2-d7,-(sp)
         move.l 32(sp),d5
@@ -132,13 +137,13 @@ __Z9partitionPiiii:
         add.l d2,a0
 .L24:
         tst.w d1
-        ble .L23
+        ble.s	.L23
         subq.w #1,d1
         cmp.w -(a0),d3
         blt .L24
 .L23:
         cmp.w d1,d0
-        bge .L25
+        bge.s	.L25
         move.w d1,d2
         ext.l d2
         move.l d2,d7

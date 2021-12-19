@@ -74,7 +74,7 @@ partition:
 ; d0	left
 ; d1	right
 ; a1	pivot
-	movem.l	a2/d2-d6,-(sp)
+	movem.l	a2/d2-d5,-(sp)
 
 	ext.w	d0
 	ext.w	d1
@@ -90,10 +90,10 @@ partition:
 .loop:
 
 	movea.l	a2,a0		; a0 = t
-	moveq	#0,d6
-	move.w	d2,d6
-	add.w	d6,d6		; d6
-	adda.l	d6,a0		; a0 = t[left]
+	moveq	#0,d0
+	move.w	d2,d0
+	add.w	d0,d0
+	adda.l	d0,a0		; a0 = t[left]
 .loopLeft:
 	cmp.w	(a0)+,d4
 	bgt.s	.loopLeft
@@ -103,10 +103,10 @@ partition:
 	subq	#1,d2		; left--;
 
 	movea.l	a2,a0		; a0 = t
-	moveq	#0,d6
-	move.w	d5,d6
-	add.w	d5,d6
-	adda.l	d6,a0		; a0 = t[rightPointer]
+	moveq	#0,d0
+	move.w	d5,d0
+	add.w	d0,d0
+	adda.l	d0,a0		; a0 = t[rightPointer]
 .loopRight:
 	cmpa.w	a0,a2
 	bge.s	.endLoopRight
@@ -135,7 +135,7 @@ partition:
 
 	move.w	d2,d0
 
-	movem.l (sp)+,a2/d2-d6
+	movem.l (sp)+,a2/d2-d5
 	rts
 
 

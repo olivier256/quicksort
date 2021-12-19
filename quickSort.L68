@@ -1,6 +1,6 @@
 00000000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.03
-Created On: 19/12/2021 17:34:46
+Created On: 19/12/2021 17:37:04
 
 00000000                             1      ORG    $0
 00000000                             2  START:
@@ -78,7 +78,7 @@ Created On: 19/12/2021 17:34:46
 00000050                            74  ; d0    left
 00000050                            75  ; d1    right
 00000050                            76  ; a1    pivot
-00000050  48E7 3E20                 77          movem.l a2/d2-d6,-(sp)
+00000050  48E7 3C20                 77          movem.l a2/d2-d5,-(sp)
 00000054                            78  
 00000054  4880                      79          ext.w   d0
 00000056  4881                      80          ext.w   d1
@@ -94,10 +94,10 @@ Created On: 19/12/2021 17:34:46
 00000064                            90  .loop:
 00000064                            91  
 00000064  204A                      92          movea.l a2,a0           ; a0 = t
-00000066  7C00                      93          moveq   #0,d6
-00000068  3C02                      94          move.w  d2,d6
-0000006A  DC46                      95          add.w   d6,d6           ; d6
-0000006C  D1C6                      96          adda.l  d6,a0           ; a0 = t[left]
+00000066  7000                      93          moveq   #0,d0
+00000068  3002                      94          move.w  d2,d0
+0000006A  D040                      95          add.w   d0,d0
+0000006C  D1C0                      96          adda.l  d0,a0           ; a0 = t[left]
 0000006E                            97  .loopLeft:
 0000006E  B858                      98          cmp.w   (a0)+,d4
 00000070  6EFC                      99          bgt.s   .loopLeft
@@ -107,10 +107,10 @@ Created On: 19/12/2021 17:34:46
 00000078  5342                     103          subq    #1,d2           ; left--;
 0000007A                           104  
 0000007A  204A                     105          movea.l a2,a0           ; a0 = t
-0000007C  7C00                     106          moveq   #0,d6
-0000007E  3C05                     107          move.w  d5,d6
-00000080  DC45                     108          add.w   d5,d6
-00000082  D1C6                     109          adda.l  d6,a0           ; a0 = t[rightPointer]
+0000007C  7000                     106          moveq   #0,d0
+0000007E  3005                     107          move.w  d5,d0
+00000080  D040                     108          add.w   d0,d0
+00000082  D1C0                     109          adda.l  d0,a0           ; a0 = t[rightPointer]
 00000084                           110  .loopRight:
 00000084  B4C8                     111          cmpa.w  a0,a2
 00000086  6C04                     112          bge.s   .endLoopRight
@@ -139,7 +139,7 @@ Created On: 19/12/2021 17:34:46
 000000AE                           135  
 000000AE  3002                     136          move.w  d2,d0
 000000B0                           137  
-000000B0  4CDF 047C                138          movem.l (sp)+,a2/d2-d6
+000000B0  4CDF 043C                138          movem.l (sp)+,a2/d2-d5
 000000B4  4E75                     139          rts
 000000B6                           140  
 000000B6                           141  

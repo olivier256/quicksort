@@ -1,6 +1,6 @@
 00000000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.03
-Created On: 19/12/2021 17:24:24
+Created On: 19/12/2021 17:34:46
 
 00000000                             1      ORG    $0
 00000000                             2  START:
@@ -26,145 +26,147 @@ Created On: 19/12/2021 17:24:24
 00000010                            22  ; d1    right
 00000010  48E7 3820                 23          movem.l a2/d2-d4,-(a7)
 00000014                            24  
-00000014                            25  .loop:
-00000014  4880                      26          ext.w   d0
-00000016  4881                      27          ext.w   d1
-00000018                            28  
-00000018  2448                      29          move.l  a0,a2           ; a2 = t
-0000001A  3400                      30          move.w  d0,d2           ; d2 = left
-0000001C  3601                      31          move.w  d1,d3           ; d3 = right
-0000001E                            32  
-0000001E  B443                      33          cmp.w   d3,d2           ; if (left - right >= 0)
-00000020  6C28                      34          bge.s   .epilog
-00000022                            35  
-00000022  3003                      36          move.w  d3,d0
-00000024  D040                      37          add.w   d0,d0
-00000026  3832 0000                 38          move.w  (a2,d0),d4      ; d4 = pivot
-0000002A                            39  
-0000002A  204A                      40          movea.l a2,a0
-0000002C  3002                      41          move.w  d2,d0
-0000002E  3203                      42          move.w  d3,d1
-00000030  3244                      43          move.w  d4,a1
-00000032  6100 001C                 44          bsr     partition
-00000036  3800                      45          move.w  d0,d4           ; d4 = partitionPoint
-00000038                            46  
-00000038  204A                      47          movea.l a2,a0
-0000003A  3002                      48          move.w  d2,d0
-0000003C  3204                      49          move.w  d4,d1
-0000003E  5341                      50          subq.w  #1,d1
-00000040  61CE                      51          bsr     quickSort       ; quickSort(t, left, partitionPoint - 1);
-00000042                            52  
-00000042  3004                      53          move.w  d4,d0
-00000044  5240                      54          addq.w  #1,d0           ; left = partitionPoint + 1;
-00000046  3203                      55          move.w  d3,d1
-00000048                            56  
-00000048  60CA                      57          bra.s   .loop
-0000004A                            58  
-0000004A                            59  
-0000004A                            60  .epilog:
-0000004A  4CDF 041C                 61          movem.l (a7)+,a2/d2-d4
-0000004E  4E75                      62          rts
-00000050                            63  
-00000050                            64  
+00000014                            25  ;       cmp.w   d1,d0
+00000014                            26  ;       bge.s   .epilog
+00000014                            27  .loop:
+00000014  4880                      28          ext.w   d0
+00000016  4881                      29          ext.w   d1
+00000018                            30  
+00000018  2448                      31          move.l  a0,a2           ; a2 = t
+0000001A  3400                      32          move.w  d0,d2           ; d2 = left
+0000001C  3601                      33          move.w  d1,d3           ; d3 = right
+0000001E                            34  
+0000001E  B443                      35          cmp.w   d3,d2           ; if (left - right >= 0)
+00000020  6C28                      36          bge.s   .epilog
+00000022                            37  
+00000022  3003                      38          move.w  d3,d0
+00000024  D040                      39          add.w   d0,d0
+00000026  3832 0000                 40          move.w  (a2,d0),d4      ; d4 = pivot
+0000002A                            41  
+0000002A  204A                      42          movea.l a2,a0
+0000002C  3002                      43          move.w  d2,d0
+0000002E  3203                      44          move.w  d3,d1
+00000030  3244                      45          move.w  d4,a1
+00000032  6100 001C                 46          bsr     partition
+00000036  3800                      47          move.w  d0,d4           ; d4 = partitionPoint
+00000038                            48  
+00000038  204A                      49          movea.l a2,a0
+0000003A  3002                      50          move.w  d2,d0
+0000003C  3204                      51          move.w  d4,d1
+0000003E  5341                      52          subq.w  #1,d1
+00000040  61CE                      53          bsr     quickSort       ; quickSort(t, left, partitionPoint - 1);
+00000042                            54  
+00000042  3004                      55          move.w  d4,d0
+00000044  5240                      56          addq.w  #1,d0           ; left = partitionPoint + 1;
+00000046  3203                      57          move.w  d3,d1
+00000048                            58  
+00000048  60CA                      59          bra.s   .loop
+0000004A                            60  
+0000004A                            61  
+0000004A                            62  .epilog:
+0000004A  4CDF 041C                 63          movem.l (a7)+,a2/d2-d4
+0000004E  4E75                      64          rts
 00000050                            65  
 00000050                            66  
 00000050                            67  
-00000050                            68  ; int partition(int *t, int left, int right, int pivot);
-00000050                            69  partition:
-00000050                            70  ; IN
-00000050                            71  ; a0    *t
-00000050                            72  ; d0    left
-00000050                            73  ; d1    right
-00000050                            74  ; a1    pivot
-00000050  48E7 3E30                 75          movem.l a2-a3/d2-d6,-(sp)
-00000054                            76  
-00000054  4880                      77          ext.w   d0
-00000056  4881                      78          ext.w   d1
-00000058                            79  
-00000058  2448                      80          movea.l a0,a2           ; a2 = *t
-0000005A  2809                      81          move.l  a1,d4           ; d4 = pivot
-0000005C  4884                      82          ext.w   d4
-0000005E  3400                      83          move.w  d0,d2           ; d2 = left
-00000060  3601                      84          move.w  d1,d3           ; d3 = right
-00000062                            85  
-00000062  3A01                      86          move.w  d1,d5           ; d5 = rightPointer
-00000064                            87  
-00000064                            88  .loop:
+00000050                            68  
+00000050                            69  
+00000050                            70  ; int partition(int *t, int left, int right, int pivot);
+00000050                            71  partition:
+00000050                            72  ; IN
+00000050                            73  ; a0    *t
+00000050                            74  ; d0    left
+00000050                            75  ; d1    right
+00000050                            76  ; a1    pivot
+00000050  48E7 3E20                 77          movem.l a2/d2-d6,-(sp)
+00000054                            78  
+00000054  4880                      79          ext.w   d0
+00000056  4881                      80          ext.w   d1
+00000058                            81  
+00000058  2448                      82          movea.l a0,a2           ; a2 = *t
+0000005A  2809                      83          move.l  a1,d4           ; d4 = pivot
+0000005C  4884                      84          ext.w   d4
+0000005E  3400                      85          move.w  d0,d2           ; d2 = left
+00000060  3601                      86          move.w  d1,d3           ; d3 = right
+00000062                            87  
+00000062  3A01                      88          move.w  d1,d5           ; d5 = rightPointer
 00000064                            89  
-00000064  284A                      90          movea.l a2,a4           ; a4 = t
-00000066  7C00                      91          moveq   #0,d6
-00000068  3C02                      92          move.w  d2,d6
-0000006A  DC46                      93          add.w   d6,d6           ; d6
-0000006C  D9C6                      94          adda.l  d6,a4           ; a4 = t[left]
-0000006E                            95  .loopLeft:
-0000006E  B85C                      96          cmp.w   (a4)+,d4
-00000070  6EFC                      97          bgt.s   .loopLeft
-00000072  99CA                      98          suba.l  a2,a4
-00000074  240C                      99          move.l  a4,d2
-00000076  E24A                     100          lsr.w   #1,d2
-00000078  5342                     101          subq    #1,d2           ; left--;
-0000007A                           102  
-0000007A  284A                     103          movea.l a2,a4           ; a4 = t
-0000007C  7C00                     104          moveq   #0,d6
-0000007E  3C05                     105          move.w  d5,d6
-00000080  DC45                     106          add.w   d5,d6
-00000082  D9C6                     107          adda.l  d6,a4           ; a4 = t[rightPointer]
-00000084                           108  .loopRight:
-00000084  B4CC                     109          cmpa.w  a4,a2
-00000086  6C04                     110          bge.s   .endLoopRight
-00000088  B864                     111          cmp.w   -(a4),d4
-0000008A  6DF8                     112          blt.s   .loopRight
-0000008C                           113  .endLoopRight
-0000008C  99CA                     114          suba.l  a2,a4
-0000008E  2A0C                     115          move.l  a4,d5
-00000090  E24D                     116          lsr.w   #1,d5           ; d5 = rightPointer
-00000092                           117  
-00000092  BA42                     118          cmp.w   d2,d5
-00000094  6E02                     119          bgt.s   .swap1
-00000096  600C                     120          bra.s   .endLoop
-00000098                           121  .swap1:
-00000098  204A                     122          movea.l a2,a0
-0000009A  3002                     123          move.w  d2,d0
-0000009C  3205                     124          move.w  d5,d1
-0000009E  6100 0016                125          bsr     swap
-000000A2                           126  
-000000A2  60C0                     127          bra.s   .loop
-000000A4                           128  .endLoop
-000000A4  204A                     129          movea.l a2,a0
-000000A6  3002                     130          move.w  d2,d0
-000000A8  3203                     131          move.w  d3,d1
-000000AA  6100 000A                132          bsr     swap
-000000AE                           133  
-000000AE  3002                     134          move.w  d2,d0
-000000B0                           135  
-000000B0  4CDF 0C7C                136          movem.l (sp)+,a2-a3/d2-d6
-000000B4  4E75                     137          rts
-000000B6                           138  
-000000B6                           139  
-000000B6                           140  ; void swap (int *t, int i, int j);
-000000B6                           141  swap:
-000000B6                           142  ; IN
-000000B6                           143  ; a0    *t
-000000B6                           144  ; d0    i
-000000B6                           145  ; d1    j
-000000B6  4880                     146          ext.w   d0
-000000B8  D040                     147          add.w   d0,d0
-000000BA  4881                     148          ext.w   d1
-000000BC  D241                     149          add.w   d1,d1
-000000BE  2248                     150          movea.l a0,a1
-000000C0  D1C0                     151          adda.l  d0,a0           ; a0 = t[i]
-000000C2  D3C1                     152          adda.l  d1,a1           ; a1 = t[j]
-000000C4  3010                     153          move.w  (a0),d0
-000000C6  3091                     154          move.w  (a1),(a0)
-000000C8  3280                     155          move.w  d0,(a1)
-000000CA  4E75                     156          rts
-000000CC                           157  
-000000CC                           158  
-000000CC                           159          DS.B    $100-*
-00000100                           160  array:
-00000100= 0004 0006 0003 0...      161          dc.w    4,6,3,2,1,9,7
-0000010E                           162  
-0000010E                           163      END    START
+00000064                            90  .loop:
+00000064                            91  
+00000064  204A                      92          movea.l a2,a0           ; a0 = t
+00000066  7C00                      93          moveq   #0,d6
+00000068  3C02                      94          move.w  d2,d6
+0000006A  DC46                      95          add.w   d6,d6           ; d6
+0000006C  D1C6                      96          adda.l  d6,a0           ; a0 = t[left]
+0000006E                            97  .loopLeft:
+0000006E  B858                      98          cmp.w   (a0)+,d4
+00000070  6EFC                      99          bgt.s   .loopLeft
+00000072  91CA                     100          suba.l  a2,a0
+00000074  2408                     101          move.l  a0,d2
+00000076  E24A                     102          lsr.w   #1,d2
+00000078  5342                     103          subq    #1,d2           ; left--;
+0000007A                           104  
+0000007A  204A                     105          movea.l a2,a0           ; a0 = t
+0000007C  7C00                     106          moveq   #0,d6
+0000007E  3C05                     107          move.w  d5,d6
+00000080  DC45                     108          add.w   d5,d6
+00000082  D1C6                     109          adda.l  d6,a0           ; a0 = t[rightPointer]
+00000084                           110  .loopRight:
+00000084  B4C8                     111          cmpa.w  a0,a2
+00000086  6C04                     112          bge.s   .endLoopRight
+00000088  B860                     113          cmp.w   -(a0),d4
+0000008A  6DF8                     114          blt.s   .loopRight
+0000008C                           115  .endLoopRight
+0000008C  91CA                     116          suba.l  a2,a0
+0000008E  2A08                     117          move.l  a0,d5
+00000090  E24D                     118          lsr.w   #1,d5           ; d5 = rightPointer
+00000092                           119  
+00000092  BA42                     120          cmp.w   d2,d5
+00000094  6E02                     121          bgt.s   .swap1
+00000096  600C                     122          bra.s   .endLoop
+00000098                           123  .swap1:
+00000098  204A                     124          movea.l a2,a0
+0000009A  3002                     125          move.w  d2,d0
+0000009C  3205                     126          move.w  d5,d1
+0000009E  6100 0016                127          bsr     swap
+000000A2                           128  
+000000A2  60C0                     129          bra.s   .loop
+000000A4                           130  .endLoop
+000000A4  204A                     131          movea.l a2,a0
+000000A6  3002                     132          move.w  d2,d0
+000000A8  3203                     133          move.w  d3,d1
+000000AA  6100 000A                134          bsr     swap
+000000AE                           135  
+000000AE  3002                     136          move.w  d2,d0
+000000B0                           137  
+000000B0  4CDF 047C                138          movem.l (sp)+,a2/d2-d6
+000000B4  4E75                     139          rts
+000000B6                           140  
+000000B6                           141  
+000000B6                           142  ; void swap (int *t, int i, int j);
+000000B6                           143  swap:
+000000B6                           144  ; IN
+000000B6                           145  ; a0    *t
+000000B6                           146  ; d0    i
+000000B6                           147  ; d1    j
+000000B6  4880                     148          ext.w   d0
+000000B8  D040                     149          add.w   d0,d0
+000000BA  4881                     150          ext.w   d1
+000000BC  D241                     151          add.w   d1,d1
+000000BE  2248                     152          movea.l a0,a1
+000000C0  D1C0                     153          adda.l  d0,a0           ; a0 = t[i]
+000000C2  D3C1                     154          adda.l  d1,a1           ; a1 = t[j]
+000000C4  3010                     155          move.w  (a0),d0
+000000C6  3091                     156          move.w  (a1),(a0)
+000000C8  3280                     157          move.w  d0,(a1)
+000000CA  4E75                     158          rts
+000000CC                           159  
+000000CC                           160  
+000000CC                           161          DS.B    $100-*
+00000100                           162  array:
+00000100= 0004 0006 0003 0...      163          dc.w    4,6,3,2,1,9,7
+0000010E                           164  
+0000010E                           165      END    START
 
 No errors detected
 No warnings generated

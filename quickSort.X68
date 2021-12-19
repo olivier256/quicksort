@@ -22,6 +22,8 @@ quickSort:
 ; d1	right
 	movem.l	a2/d2-d4,-(a7)
 
+;	cmp.w	d1,d0
+;	bge.s	.epilog
 .loop:
 	ext.w	d0
 	ext.w	d1
@@ -72,7 +74,7 @@ partition:
 ; d0	left
 ; d1	right
 ; a1	pivot
-	movem.l	a2-a3/d2-d6,-(sp)
+	movem.l	a2/d2-d6,-(sp)
 
 	ext.w	d0
 	ext.w	d1
@@ -87,32 +89,32 @@ partition:
 
 .loop:
 
-	movea.l	a2,a4		; a4 = t
+	movea.l	a2,a0		; a0 = t
 	moveq	#0,d6
 	move.w	d2,d6
 	add.w	d6,d6		; d6
-	adda.l	d6,a4		; a4 = t[left]
+	adda.l	d6,a0		; a0 = t[left]
 .loopLeft:
-	cmp.w	(a4)+,d4
+	cmp.w	(a0)+,d4
 	bgt.s	.loopLeft
-	suba.l	a2,a4
-	move.l	a4,d2
+	suba.l	a2,a0
+	move.l	a0,d2
 	lsr.w	#1,d2
 	subq	#1,d2		; left--;
 
-	movea.l	a2,a4		; a4 = t
+	movea.l	a2,a0		; a0 = t
 	moveq	#0,d6
 	move.w	d5,d6
 	add.w	d5,d6
-	adda.l	d6,a4		; a4 = t[rightPointer]
+	adda.l	d6,a0		; a0 = t[rightPointer]
 .loopRight:
-	cmpa.w	a4,a2
+	cmpa.w	a0,a2
 	bge.s	.endLoopRight
-	cmp.w	-(a4),d4
+	cmp.w	-(a0),d4
 	blt.s	.loopRight
 .endLoopRight
-	suba.l	a2,a4
-	move.l	a4,d5
+	suba.l	a2,a0
+	move.l	a0,d5
 	lsr.w	#1,d5		; d5 = rightPointer
 
 	cmp.w	d2,d5
@@ -133,7 +135,7 @@ partition:
 
 	move.w	d2,d0
 
-	movem.l (sp)+,a2-a3/d2-d6
+	movem.l (sp)+,a2/d2-d6
 	rts
 
 

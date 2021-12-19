@@ -51,7 +51,7 @@ int partition(int *t, int left, int right, int pivot) {
 		while (t[left++] < pivot) ;
 		left--;
 
-		while (t[--rightPointer] > pivot) ;
+		while (rightPointer > 0 && t[--rightPointer] > pivot) ;
 
 		if (left < rightPointer) {
 			swap(t, left, rightPointer);

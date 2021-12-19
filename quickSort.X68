@@ -10,10 +10,19 @@ _main:
         move.w #1,-6(a5)
         move.w #9,-4(a5)
         move.w #7,-2(a5)
-        move.w #6,-(sp)
-        clr.w -(sp)
-        pea -14(a5)
-        bsr	__Z9quickSortPiii_part_0
+
+;        move.w #6,-(sp)
+;        clr.w -(sp)
+;        pea -14(a5)
+
+	move.l	a5,d6
+	subi.l	#14,d6
+	moveq	#0,d7
+	movea.l	#6,a5
+
+
+
+        bsr	quickSort
         addq.l #8,sp
         clr.w d0
 INF_LOOP:
@@ -24,23 +33,18 @@ INF_LOOP:
 
 
 
-__Z9quickSortPiii:
-        move.w 8(sp),d0
-        move.w 10(sp),d1
-        cmp.w d1,d0
-        bge.s	.L16
-        bra.s	__Z9quickSortPiii_part_0
-.L16:
-        rts
 
 
-
-
-__Z9quickSortPiii_part_0:
+; void quickSort(int *t, int left, int right);
+quickSort:
+; IN
+; d6	*t
+; d7	left
+; a5	right
         movem.l a2-a6/d2-d7,-(sp)
-        move.l 48(sp),d6
-        move.w 52(sp),d7
-        move.w 54(sp),a5
+;        move.l 48(sp),d6
+;        move.w 52(sp),d7
+;        move.w 54(sp),a5
         cmp.w a5,d7
         bge.s	.L1
         move.w a5,a6
@@ -48,7 +52,6 @@ __Z9quickSortPiii_part_0:
         add.l d0,d0
         move.l d6,a4
         add.l d0,a4
-        lea __Z9quickSortPiii_part_0,a3
 .L9:
         move.w (a4),d2
         move.w d7,d5
@@ -95,11 +98,13 @@ __Z9quickSortPiii_part_0:
         move.w d3,(a4)
         cmp.w d5,d7
         bge.s .L8
-        move.w d5,-(sp)
-        move.w d7,-(sp)
-        move.l d6,-(sp)
-        jsr (a3)
-        addq.l #8,sp
+;        move.w d5,-(sp)		; right	=> a5
+;        move.w d7,-(sp)		; left	=> d7
+;        move.l d6,-(sp)		; *t	=> d6
+	exg	d5,a5
+	bsr	quickSort
+;        addq.l #8,sp
+	exg	d5,a5
 .L8:
         move.w d5,d7
         addq.w #2,d7
@@ -111,78 +116,8 @@ __Z9quickSortPiii_part_0:
 
 
 
-__Z9partitionPiiii:
-        movem.l a2/d2-d7,-(sp)
-        move.l 32(sp),d5
-        move.w 36(sp),d1
-        move.w 38(sp),d6
-        move.w 40(sp),d3
-        move.w d1,d0
-        subq.w #1,d0
-        ext.l d1
-        add.l d1,d1
-        move.l d5,a1
-        add.l d1,a1
-        move.w d6,d1
-        move.w d6,d2
-        ext.l d2
-.L21:
-        addq.w #1,d0
-        move.l a1,a2
-        move.w (a1)+,d4
-        cmp.w d4,d3
-        bgt .L21
-        add.l d2,d2
-        move.l d5,a0
-        add.l d2,a0
-.L24:
-        tst.w d1
-        ble.s	.L23
-        subq.w #1,d1
-        cmp.w -(a0),d3
-        blt .L24
-.L23:
-        cmp.w d1,d0
-        bge.s	.L25
-        move.w d1,d2
-        ext.l d2
-        move.l d2,d7
-        add.l d7,d7
-        move.l d7,a0
-        add.l d5,a0
-        move.w (a0),-2(a1)
-        move.w d4,(a0)
-        bra .L21
-.L25:
-        ext.l d6
-        add.l d6,d6
-        move.l d5,a0
-        add.l d6,a0
-        move.w (a0),(a2)
-        move.w d4,(a0)
-        movem.l (sp)+,a2/d2-d7
-        rts
-
-
-
-
-
-__Z4swapPiii:
-        move.l 4(sp),a1
-        move.w 8(sp),a0
-        move.l a0,d0
-        add.l d0,d0
-        lea (a1,d0.l),a0
-        move.w (a0),d1
-        move.w 10(sp),d0
-        ext.l d0
-        add.l d0,d0
-        add.l d0,a1
-        move.w (a1),(a0)
-        move.w d1,(a1)
-        rts
-
 	END START
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
